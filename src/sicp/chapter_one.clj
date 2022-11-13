@@ -78,3 +78,45 @@
 ;; f = 2y
 ;; g = 2y^y
 
+<<<<<<< HEAD
+=======
+;; 1.11
+(defn f-iter
+   "f(n) = n if n < 3
+   f(n) = f(n - 1) + 2f(n-2) + 3f(n-3) if n >= 3"
+   ([n] (f-iter n 2 2 1 0))
+   ([n count current minus-one minus-two]
+      (cond (< n 3) n
+            (= n count) current
+            :else (recur n (inc count) (+ current (* 2 minus-one) (* 3 minus-two)) current minus-one))))
+
+(defn f-recurs
+   "f(n) = n if n < 3
+   f(n) = f(n - 1) + 2f(n - 2) + 3f(n - 3) if n >= 3"
+   [n]
+   (if (< n 3)
+      n
+      (+ (f-recurs (- n 1)) (* 2 (f-recurs (- n 2))) (* 3 (f-recurs (- n 3))))))
+
+;; 1.12
+; Edges are all 1, and each number inside the triangle is the sum of the two numbers above it
+;; compute via recursive process.
+(defn pascal
+   ([row column] (if (or (= column 1) (= column row))
+                 1
+                 (+ (pascal (- row 1) (- column 1))
+                    (pascal (- row 1) column)))))
+
+;; 1.16
+
+(defn square
+   [x]
+   (* x x))
+
+; Design an iterative process version of
+(defn fast-expt
+   [b n]
+   (cond ((= n 0) 1
+          ((even? n) (square (fast-expt b (/ n 2)))
+           :else (* b (fast-expt b (dec n)))))))
+>>>>>>> origin/main
