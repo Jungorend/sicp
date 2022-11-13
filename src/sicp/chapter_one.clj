@@ -7,7 +7,7 @@
    (* 3 (- 6 2) (- 2 7)))
 
 ;; 1.3
-(defn exercise-1.3
+(defn exercise-1-3
    "This function takes in three arguments, and returns
    the sum of the squares of the two larger numbers."
    [a b c]
@@ -76,4 +76,5 @@
 
 ;; 1.10
 ;; f = 2y
-;; g = y^y
+;; g = 2y^y
+
