@@ -116,6 +116,44 @@
 ; Design an iterative process version of
 (defn fast-expt
   [b n]
-  (cond ((= n 0) 1
-                 ((even? n) (square (fast-expt b (/ n 2)))
-                            :else (* b (fast-expt b (dec n)))))))
+  (cond (= n 0) 1
+        (even? n) (square (fast-expt b (/ n 2)))
+        :else (* b (fast-expt b (dec n)))))
+
+(defn fast-expt-iter
+  "Calculates the exponentation `n` of base `b` in a logarithmic number of steps, through an iterative process."
+  ([b n] (fast-expt-iter b n 1))
+  ([b n a]
+   (cond (= n 0) a
+         (even? n) (recur (square b) (/ n 2) a)
+         :else (recur b (dec n) (* b a)))))
+
+;; 1.17
+(defn mult [a b]
+  (if (= b 0)
+    0
+    (+ a (mult a (dec b)))))
+
+(defn double [x]
+  (* x 2))
+
+(defn halve [x]
+  (/ x 2))
+
+;; 1.17
+(defn fast-mult
+  "This is like 1.16, it provides multiplication with only the `double`, `halve` and addition functions.
+  Multiplies in a logarithmic number of steps."
+  [a b]
+  (cond (= b 0) 0
+        (even? b) (double (fast-mult a (halve b)))
+        :else (+ a (fast-mult a (dec b)))))
+
+;; 1.18
+(defn fast-mult-iter
+  "Same multiplication as 1.17, but done with an iterative process."
+  ([a b] (fast-mult-iter a b 0))
+  ([a b r] (cond
+             (= b 0) r
+             (even? b) (recur (double a) (halve b) r)
+             :else (recur a (dec b) (+ a r)))))
