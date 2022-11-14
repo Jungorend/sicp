@@ -78,8 +78,6 @@
 ;; f = 2y
 ;; g = 2y^y
 
-<<<<<<< HEAD
-=======
 ;; 1.11
 (defn f-iter
   "f(n) = n if n < 3
@@ -190,3 +188,35 @@
                p
                q
                (- c 1))))
+
+;; 1.22
+(defn divides? [a b]
+  (= (rem b a) 0))
+
+(defn find-divisor [n test-divisor]
+  (cond (> (square test-divisor) n) n
+        (divides? test-divisor n) test-divisor
+        :else (recur n (inc test-divisor))))
+
+(defn smallest-divisor [n]
+  (find-divisor n 2))
+
+(defn prime? [n]
+  (= n (smallest-divisor n)))
+
+(defn timed-prime-test [n]
+  (print (str "*** " (time (prime? n)))))
+
+
+;; We haven't been introduced do blocks or looping constructs yet, so
+;; adding a parameter purely to call side-effects. This is *very ugly*
+(defn search-for-primes
+  ([a b] (search-for-primes
+          (if (= (rem a 2) 0)
+            (inc a)
+            a)
+          b
+          nil))
+  ([a b _] (if (<= a b)
+             (recur (+ a 2) b (timed-prime-test a))
+             nil)))
