@@ -157,3 +157,36 @@
              (= b 0) r
              (even? b) (recur (double a) (halve b) r)
              :else (recur a (dec b) (+ a r)))))
+
+;; 1.19
+(defn fib [n]
+  (fib-iter 1 0 0 1 n))
+
+;; Need to calculate p' and q'
+;;
+;; b' = bp + aq
+;; a' = bq + aq + ap
+
+;; b'' = (bp + aq)p + (bq + aq + ap)q
+;;     = bp^2 + aqp +aqp + aq^2 + bq^2
+;;     = bp^2 + bq^2 + aq^2 + 2aqp
+;;     = b(p^2 + q^2) + a(q^2 + 2qp)
+
+;; a'' = (bp + aq)q + (bq + aq + ap)q + (bq + aq + ap)p
+;;     = bpq + aq^2 + bq^2 + aq^2 + apq + bpq + apq + ap^2
+;;     = ap^2 + 2aq^2 + bq^2 + 2bpq + 2apq
+;;     = a(p^2 + 2q^2 + 2pq) + b(q^2 + 2pq)
+;;
+(defn fib-iter [a b p q c]
+  (cond (= c 0) b
+        (even? c)
+        (recur a b
+               (+ (square p) (square q))
+               (+ (square q) (* 2 q p))
+               (/ c 2))
+        :else (recur
+               (+ (* b q) (* a q) (* a p))
+               (+ (* b p) (* a q))
+               p
+               q
+               (- c 1))))
